@@ -37,30 +37,28 @@
   <thead>
     <h1>your-to-do-list</h1>
     <tr>
-      <th scope="col">No</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">sno</th>
+      <th scope="col">title</th>
+      <th scope="col">content</th>
+      <th scope="col">date</th>
     </tr>
   </thead>
   <tbody>
+    {% for to_do in allTodo %}
     <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+      <th scope="row">{{to_do.sno}}</th>
+      <td>{{to_do.title}}</td>
+      <td>{{to_do.content}}</td>
+      <td>{{to_do.date}}</td>
     </tr>
+      
+      
+    {% endfor %}
+    
+      
+    
     <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
+     
   </tbody>
 </table>
 </body>
