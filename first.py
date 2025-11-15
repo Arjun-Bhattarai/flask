@@ -1,62 +1,69 @@
-from flask import Flask, render_template,request     # flask library import garako. Flask app banaucha and HTML pages render garna help garcha
-from flask_sqlalchemy import SQLAlchemy      # SQLAlchemy import gareko. Database access garna like MySQL/SQLite use garincha
-from datetime import datetime                # current date/time handle garna datetime import gareko
+from flask import Flask, render_template, request, redirect      # flask library import gareko. HTML render garna and redirect garna help garcha
+from flask_sqlalchemy import SQLAlchemy                         # SQLAlchemy import gareko. Database ko lagi.
+from datetime import datetime                                   # date and time store garna import
 
-# Flask app banako
-first = Flask(__name__)                      # index file banako. __name__ tells Flask where to find files, routes, templates etc.
+first = Flask(__name__)                                         # Flask app banako
 
-# Database configuration
-first.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///to_do.db'  # SQLite database ko file link deko
-first.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False          # tracking off gareko (optional, performance ko lagi)
+# Database ko path define
+first.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///to_do.db'  # Database location define gareko
+first.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False          # Extra warning hataune
 
-db = SQLAlchemy(first)                        # SQLAlchemy object create gareko, Flask app sanga link gareko
+db = SQLAlchemy(first)                                          # Database instance banako
 
-# Table/model banako
+
+# Database ko table banako
 class Todo(db.Model):
-    sno = db.Column(db.Integer, primary_key=True, autoincrement=True)  # primary key, auto-increment garera unique banaune
-    title = db.Column(db.String(100), nullable=False)                  # task title. nullable=False bhaye empty value allow hudaina
-    content = db.Column(db.String(500), nullable=False)                # task content/description. same as above
-    date = db.Column(db.DateTime, default=datetime.utcnow)             # default current date/time automatically set huncha
+    sno = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Serial number -> primary key
+    title = db.Column(db.String(100), nullable=False)                  # Todo title
+    content = db.Column(db.String(500), nullable=False)                # Todo description
+    date = db.Column(db.DateTime, default=datetime.utcnow)             # Date automatically add huncha
 
-    def __repr__(self) -> str:                                         # object print garda k output aauxa vanera define gareko
-        return f"{self.sno}: {self.title}"                             # example: 1: Buy groceries
+    def __repr__(self) -> str:
+        return f"{self.sno}: {self.title}"
 
-# Flask routes
-@first.route('/', methods=['GET','POST'])          # '/' vaneko home page ko URL
-def helloworld():           # function banako, page visit garda execute huncha
-    from datetime import datetime
-    if request.method=='POST':
-           title = request.form.get('title')
-           content = request.form.get('content')
-           print(title,content)
-    # Warning: yo manually sno=1 haleko xa, future ma UNIQUE constraint fail huncha
-    to_do = Todo(
-        title=title,
-        content=content,
-        # date automatic set huncha default value le
-    )
-    db.session.add(to_do)   # database ma add garna session ma rakheko
-    db.session.commit()     # database ma commit gareko (save gareko)
 
-    allTodo = Todo.query.all()  # fetch all todo records
-    return render_template('index.html', allTodo=allTodo)
-  # index.html render garne
-    return 'Hello, this is my first Flask program!'     # yo second return reachable hudaina, hataunu parcha
+# HOME PAGE → SHOW + ADD TODOS
+@first.route('/', methods=['GET', 'POST'])
+def helloworld():
 
-@first.route('/about')       # about page ko route
-def about():
-    return 'aasari aarko page ma jana sakinxa '   # simple string return garera test gareko
+    # POST request aayo vaney form ko data database ma save garne
+    if request.method == 'POST':
+        title = request.form.get('title')          # form bata title liyo
+        content = request.form.get('content')      # form bata description liyo
 
-@first.route('/hello1')      # hello1 page ko route
-def hello1():
+        to_do = Todo(title=title, content=content) # database ko object banako
+        db.session.add(to_do)                      # database ma add gareko
+        db.session.commit()                        # save garne
 
-    return render_template('hello1.html')  # HTML page render garna
-@first.route('/show')
-def show():
-    allTodo=Todo.query.all()
-    print(allTodo )
-    return "this is about page"
+    allTodo = Todo.query.all()                     # database bata sabai todo fetch gareko
+    return render_template('index.html', allTodo=allTodo)   # index.html ma pathaune
 
-# App run garne
-if __name__ == "__main__":        # directly execute garda code run hos ko lagi
-    first.run(debug=True)          # debug=True bhaye error haru terminal ma dekhiyos
+
+
+# UPDATE PAGE → BOTH GET + POST
+@first.route('/update/<int:sno>', methods=['GET', 'POST'])
+def update(sno):
+    to_do = Todo.query.filter_by(sno=sno).first()  # jun todo click gareko tesko data liyeko
+
+    # Form submit bhayo vane update garne
+    if request.method == 'POST':
+        to_do.title = request.form.get('title')    # naya title
+        to_do.content = request.form.get('content')# naya description
+        db.session.commit()                        # database update
+        return redirect('/')                       # redirect back to home
+
+    return render_template('update.html', to_do=to_do)  # update page kholne
+
+
+
+# DELETE
+@first.route('/delete/<int:sno>')
+def delete(sno):
+    to_do = Todo.query.filter_by(sno=sno).first()  # delete garne task find gareko
+    db.session.delete(to_do)                       # delete gareko
+    db.session.commit()                            # database ma save
+    return redirect('/')                           # home ma pathaune
+
+
+if __name__ == "__main__":
+    first.run(debug=True)                          # Flask app run garne

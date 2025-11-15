@@ -8,7 +8,7 @@
 
 <body style="margin: 0;">
     <nav style="background-color: #f2f2f2; padding: 10px; text-align: center;">
-        <a href="/" style="margin: 0 15px; text-decoration: none; color: black;">Home</a>
+        <a href="/" style="margin: 0 15px; text-decoration: none; color: black;">TO-DO</a>
         <a href="/about" style="margin: 0 15px; text-decoration: none; color: black;">About</a>
         <a href="/services" style="margin: 0 15px; text-decoration: none; color: black;">Services</a>
         <a href="/contact" style="margin: 0 15px; text-decoration: none; color: black;">Contact</a>
@@ -41,15 +41,21 @@
       <th scope="col">title</th>
       <th scope="col">content</th>
       <th scope="col">date</th>
+      <th scope="col">Actions</th>
+
     </tr>
   </thead>
   <tbody>
-    {% for to_do in allTodo %}
+    {% for to_do in allTodo %} <!--jinxa2 for loop -->
     <tr>
       <th scope="row">{{loop.index}}</th>
       <td>{{to_do.title}}</td>
       <td>{{to_do.content}}</td>
       <td>{{to_do.date}}</td>
+      <td><a href="/update/{{ to_do.sno }}" class="btn-outline-blue btn-sm mx=1">Update</a></td>
+      <td><a href="/delete/{{ to_do.sno }}" class="btn-outline-blue btn-sm mx=1">Delete</a></td>
+
+
     </tr>
       
       

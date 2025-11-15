@@ -1,0 +1,26 @@
+<div class="container-fluid mt-4">
+    <h2 class="text-center mb-4">Update Todo</h2>
+
+    <form style="max-width: 500px; margin: auto;"
+          action="/update/{{ to_do.sno }}"
+          method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Update To Do</label>
+            <input type="text"
+                   class="form-control"
+                   name="title"
+                   value="{{ to_do.title }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <input type="text"
+                   class="form-control"
+                   name="content"
+                   value="{{ to_do.content }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+    </form>
+</div>
