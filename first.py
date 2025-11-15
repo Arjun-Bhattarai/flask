@@ -1,4 +1,4 @@
-from flask import Flask, render_template     # flask library import garako. Flask app banaucha and HTML pages render garna help garcha
+from flask import Flask, render_template,request     # flask library import garako. Flask app banaucha and HTML pages render garna help garcha
 from flask_sqlalchemy import SQLAlchemy      # SQLAlchemy import gareko. Database access garna like MySQL/SQLite use garincha
 from datetime import datetime                # current date/time handle garna datetime import gareko
 
@@ -22,14 +22,17 @@ class Todo(db.Model):
         return f"{self.sno}: {self.title}"                             # example: 1: Buy groceries
 
 # Flask routes
-@first.route('/')          # '/' vaneko home page ko URL
+@first.route('/', methods=['GET','POST'])          # '/' vaneko home page ko URL
 def helloworld():           # function banako, page visit garda execute huncha
     from datetime import datetime
-
+    if request.method=='POST':
+           title = request.form.get('title')
+           content = request.form.get('content')
+           print(title,content)
     # Warning: yo manually sno=1 haleko xa, future ma UNIQUE constraint fail huncha
     to_do = Todo(
-        title="hello",
-        content="hello what are you doing",
+        title=title,
+        content=content,
         # date automatic set huncha default value le
     )
     db.session.add(to_do)   # database ma add garna session ma rakheko
@@ -46,6 +49,7 @@ def about():
 
 @first.route('/hello1')      # hello1 page ko route
 def hello1():
+
     return render_template('hello1.html')  # HTML page render garna
 @first.route('/show')
 def show():

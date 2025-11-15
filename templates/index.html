@@ -19,15 +19,15 @@
     <div class="container-fluid mt-4">
         <h2 class="text-center mb-4">Things-To-Do Form</h2>
 
-        <form style="max-width: 500px; margin: auto;">
+        <form style="max-width: 500px; margin: auto;" action="/" method="POST"> <!--form action form lai working banauna -->
             <div class="mb-3">
                 <label for="todo" class="form-label">Things to do</label>
-                <input type="text" class="form-control" id="todo" placeholder="Enter a task">
+                <input type="text" class="form-control" name="title" id="todo" placeholder="Enter a task">
             </div>
 
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <input type="text" class="form-control" id="description" placeholder="Add some details">
+                <input type="text" class="form-control" name="content" id="description" placeholder="Add some details">
             </div>
 
             <button type="submit" class="btn btn-primary w-100">Done</button>
@@ -46,7 +46,7 @@
   <tbody>
     {% for to_do in allTodo %}
     <tr>
-      <th scope="row">{{to_do.sno}}</th>
+      <th scope="row">{{loop.index}}</th>
       <td>{{to_do.title}}</td>
       <td>{{to_do.content}}</td>
       <td>{{to_do.date}}</td>
