@@ -1,26 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Update Todo{% endblock %}
+
+{% block content %}
+
 <div class="container-fluid mt-4">
     <h2 class="text-center mb-4">Update Todo</h2>
 
-    <form style="max-width: 500px; margin: auto;"
-          action="/update/{{ to_do.sno }}"
-          method="POST">
+    <form style="max-width: 500px; margin: auto;" action="/update/{{ to_do.sno }}" method="POST">
 
         <div class="mb-3">
-            <label class="form-label">Update To Do</label>
-            <input type="text"
-                   class="form-control"
-                   name="title"
-                   value="{{ to_do.title }}">
+            <label for="todo" class="form-label">Update To Do</label>
+            <input type="text" 
+                   class="form-control" 
+                   name="title" 
+                   id="todo"
+                   value="{{ to_do.title }}"
+                   placeholder="Enter a task">
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Description</label>
-            <input type="text"
+            <label for="description" class="form-label">Description</label>
+            <input type="text" 
                    class="form-control"
                    name="content"
-                   value="{{ to_do.content }}">
+                   id="description"
+                   value="{{ to_do.content }}"
+                   placeholder="Add some details">
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+        <button type="submit" class="btn btn-primary w-100">Done</button>
     </form>
 </div>
+
+{% endblock %}

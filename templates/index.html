@@ -1,71 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Simple Navbar + Form</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+{% extends "base.html" %}
+{% block title %}To-Do List{% endblock %}
 
-<body style="margin: 0;">
-    <nav style="background-color: #f2f2f2; padding: 10px; text-align: center;">
-        <a href="/" style="margin: 0 15px; text-decoration: none; color: black;">TO-DO</a>
-        <a href="/about" style="margin: 0 15px; text-decoration: none; color: black;">About</a>
-        <a href="/services" style="margin: 0 15px; text-decoration: none; color: black;">Services</a>
-        <a href="/contact" style="margin: 0 15px; text-decoration: none; color: black;">Contact</a>
-        <a href="/hello1" style="margin: 0 15px; text-decoration: none; color: black;">hello1</a>
+{% block content %}
 
-    </nav>
+<div class="container-fluid mt-4">
+    <h2 class="text-center mb-4">Things-To-Do Form</h2>
 
-    <div class="container-fluid mt-4">
-        <h2 class="text-center mb-4">Things-To-Do Form</h2>
+    <form style="max-width: 500px; margin: auto;" action="/" method="POST">
+        <div class="mb-3">
+            <label for="todo" class="form-label">Things to do</label>
+            <input type="text" class="form-control" name="title" id="todo" placeholder="Enter a task">
+        </div>
 
-        <form style="max-width: 500px; margin: auto;" action="/" method="POST"> <!--form action form lai working banauna -->
-            <div class="mb-3">
-                <label for="todo" class="form-label">Things to do</label>
-                <input type="text" class="form-control" name="title" id="todo" placeholder="Enter a task">
-            </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" name="content" id="description" placeholder="Add some details">
+        </div>
 
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <input type="text" class="form-control" name="content" id="description" placeholder="Add some details">
-            </div>
+        <button type="submit" class="btn btn-primary w-100">Done</button>
+    </form>
+</div>
 
-            <button type="submit" class="btn btn-primary w-100">Done</button>
-        </form>
-    </div>
 <table class="table">
-  <thead>
-    <h1>your-to-do-list</h1>
-    <tr>
-      <th scope="col">sno</th>
-      <th scope="col">title</th>
-      <th scope="col">content</th>
-      <th scope="col">date</th>
-      <th scope="col">Actions</th>
+    <thead>
+        <h1>your-to-do-list</h1>
+        <tr>
+            <th scope="col">sno</th>
+            <th scope="col">title</th>
+            <th scope="col">content</th>
+            <th scope="col">date</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
 
-    </tr>
-  </thead>
-  <tbody>
-    {% for to_do in allTodo %} <!--jinxa2 for loop -->
-    <tr>
-      <th scope="row">{{loop.index}}</th>
-      <td>{{to_do.title}}</td>
-      <td>{{to_do.content}}</td>
-      <td>{{to_do.date}}</td>
-      <td><a href="/update/{{ to_do.sno }}" class="btn-outline-blue btn-sm mx=1">Update</a></td>
-      <td><a href="/delete/{{ to_do.sno }}" class="btn-outline-blue btn-sm mx=1">Delete</a></td>
-
-
-    </tr>
-      
-      
-    {% endfor %}
-    
-      
-    
-    <tr>
-     
-  </tbody>
+    <tbody>
+        {% for to_do in allTodo %}
+        <tr>
+            <th>{{ to_do.sno }}</th>
+            <td>{{ to_do.title }}</td>
+            <td>{{ to_do.content }}</td>
+            <td>{{ to_do.date }}</td>
+            <td>
+                <a href="/update/{{ to_do.sno }}" class="btn btn-warning btn-sm">Update</a>
+                <a href="/delete/{{ to_do.sno }}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
-</body>
-</html>
+
+{% endblock %}
