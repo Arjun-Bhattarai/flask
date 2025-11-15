@@ -22,7 +22,6 @@ class Todo(db.Model):
         return f"{self.sno}: {self.title}"                             # example: 1: Buy groceries
 
 
-# ------------------------- HOME PAGE (SHOW + ADD TODOS) -------------------------
 @first.route('/', methods=['GET', 'POST'])          # '/' vaneko home page ko URL
 def helloworld():                                    # function banako, page visit garda execute huncha
     
@@ -39,19 +38,16 @@ def helloworld():                                    # function banako, page vis
     return render_template('index.html', allTodo=allTodo)   # index.html render garne
 
 
-# ------------------------- ABOUT PAGE -------------------------
 @first.route('/about')                               # about page ko route
 def about():
     return 'aasari aarko page ma jana sakinxa '      # simple string return garera test gareko
 
 
-# ------------------------- HELLO1 PAGE -------------------------
 @first.route('/hello1')                              # hello1 page ko route
 def hello1():
     return render_template('hello1.html')            # HTML page render garna
 
 
-# ------------------------- SHOW (DEBUG ONLY) -------------------------
 @first.route('/show')
 def show():
     allTodo = Todo.query.all()
@@ -59,7 +55,6 @@ def show():
     return "this is about page"
 
 
-# ------------------------- UPDATE PAGE -------------------------
 @first.route('/update/<int:sno>', methods=['GET', 'POST'])
 def update(sno):
     to_do = Todo.query.filter_by(sno=sno).first()    # particular task fetch gareko
@@ -74,7 +69,6 @@ def update(sno):
     return render_template('update.html', to_do=to_do)
 
 
-# ------------------------- DELETE TODO -------------------------
 @first.route('/delete/<int:sno>')
 def delete(sno):
     to_do = Todo.query.filter_by(sno=sno).first()    # particular task find gareko
@@ -83,6 +77,5 @@ def delete(sno):
     return redirect('/')                             # home ma redirect
 
 
-# ------------------------- RUN APP -------------------------
 if __name__ == "__main__":
     first.run(debug=True)                            # debug mode on rakheko

@@ -36,7 +36,7 @@
     <tbody>
         {% for to_do in allTodo %}
         <tr>
-            <th>{{ to_do.sno }}</th>
+            <th>{{ loop.index }}</th>
             <td>{{ to_do.title }}</td>
             <td>{{ to_do.content }}</td>
             <td>{{ to_do.date }}</td>
