@@ -1,5 +1,4 @@
-from todo import create_app, db
-
+from app import create_app, db
 # create the Flask app with config, database, and routes
 app = create_app()
 
