@@ -1,1 +1,4 @@
 web: gunicorn first:first
+# use forms for vbalidation
+        # use and learn db transactions
+        # learn flush andc co

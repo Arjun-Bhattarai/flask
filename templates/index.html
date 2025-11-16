@@ -2,6 +2,9 @@
 {% block title %}To-Do List{% endblock %}
 
 {% block content %}
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
 
 <div class="container-fluid mt-4">
     <h2 class="text-center mb-4">Things-To-Do Form</h2>
